@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/qlyt" userId="root"
+			password="12345678">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator
+			targetPackage="com.Trang.webyte.model"
+			targetProject="WebYTe">
+
+		</javaModelGenerator>
+
+		<sqlMapGenerator
+			targetPackage="com.Trang.webyte.mapper.sql"
+			targetProject="WebYTe/src/main/resources">
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.Trang.webyte.mapper"
+			targetProject="WebYTe">
+		</javaClientGenerator>
+
+		<table tableName="account" domainObjectName="Account">
+		</table>
+		<table tableName="admin" domainObjectName="admin">
+		</table>
+		<table tableName="answer" domainObjectName="Answer">
+		</table>
+		<table tableName="appointment_schedule" domainObjectName="Appointment_Schedule">
+		</table>
+		<table tableName="clinic" domainObjectName="Clinic">
+		</table>
+		<table tableName="dept" domainObjectName="Dept">
+		</table>
+		<table tableName="doctor" domainObjectName="Doctor">
+		</table>
+		<table tableName="dutyshedule" domainObjectName="Dutyschedule">
+		</table>
+		<table tableName="healthrecords" domainObjectName="Healthrecords">
+		</table>
+		<table tableName="medicine" domainObjectName="Medicine">
+		</table>
+		<table tableName="news" domainObjectName="News">
+		</table>
+		<table tableName="patient" domainObjectName="Patient">
+		</table>
+		<table tableName="prescription" domainObjectName="Prescription">
+		</table>
+		<table tableName="prescription_detail" domainObjectName="Prescription_Detail">
+		</table>
+		<table tableName="question" domainObjectName="Question">
+		</table>
+		<table tableName="role" domainObjectName="Role">
+		</table>
+		<table tableName="schedute" domainObjectName="Schedule">
+		</table>
+		<table tableName="question" domainObjectName="Question">
+		</table>
+		<table tableName="sick" domainObjectName="Sick">
+		</table>
+		<table tableName="sick_detail" domainObjectName="Sick_Detail">
+		</table>
+		<table tableName="symptom" domainObjectName="Symptom">
+		</table>
+		<table tableName="topic" domainObjectName="Topic">
+		</table>
+		<table tableName="typeofclinic" domainObjectName="Type_Of_Clinic">
+		</table>
+		<table tableName="typesick" domainObjectName="Type_Sick">
+		</table>
+
+	</context>
+</generatorConfiguration>
