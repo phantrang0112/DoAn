@@ -15,6 +15,4 @@ public interface PatientService {
     public PatientDTO updatePatient(PatientDTO patientDTO);
 
     public int deletePatient(int id);
-
-
 }

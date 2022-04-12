@@ -69,9 +69,6 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public int deletePatient(int id) {
-        Patient key = new Patient();
-        key.setId(id);
-        int success = patientMapper.deleteByPrimaryKey(key.getId());
-        return success;
+        return patientMapper.deleteByPrimaryKey(id);
     }
 }
