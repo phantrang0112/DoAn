@@ -4,9 +4,11 @@ import com.Trang.webyte.mapper.Appointment_ScheduleMapper;
 import com.Trang.webyte.model.Appointment_Schedule;
 import com.Trang.webyte.model.Appointment_ScheduleExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AppointmentScheduleServce implements com.Trang.webyte.service.AppointmentScheduleServce {
     @Autowired
     Appointment_ScheduleMapper appointment_scheduleMapper;

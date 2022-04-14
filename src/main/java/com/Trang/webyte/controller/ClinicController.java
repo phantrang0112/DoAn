@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clinic")
-public class AppoinmentScheduleController {
+@RequestMapping("/webyte/clinic")
+public class ClinicController {
     @Autowired
     ClinicService clinicService;
     @GetMapping("")

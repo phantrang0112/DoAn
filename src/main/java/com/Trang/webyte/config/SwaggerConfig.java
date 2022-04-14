@@ -17,11 +17,11 @@ public class SwaggerConfig{
             return  new Docket(DocumentationType.SWAGGER_2)
                     .groupName("public-api").apiInfo(apiInfo())
                     .select()
-                    .apis(RequestHandlerSelectors.basePackage("com.trang.QuanLyNhanVien.Controller"))
+                    .apis(RequestHandlerSelectors.basePackage("com.Trang.webyte.controller"))
                     .build();
         }
         private ApiInfo apiInfo(){
-            return  new ApiInfoBuilder().title("Employee Api").description("Employee API Reference  for dev")
+            return  new ApiInfoBuilder().title("Webyte Api").description("Employee API Reference  for dev")
                     .termsOfServiceUrl("http://localhost:8080/webyte/").licenseUrl("phantrang151220@gmail.com").version("1.0").build();
         }
 }

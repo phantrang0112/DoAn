@@ -15,33 +15,52 @@ import java.util.List;
 public class AccountController {
     @Autowired
     AccountService accountService;
+
     @GetMapping("/get-all-account")
-    public List<Account> getAllAccount(){
-        List<Account> accountList= accountService.getAllListAccount();
-        if(accountList!=null){
-             return  accountList;
-        }
-        else{
+    public List<Account> getAllAccount() {
+        List<Account> accountList = accountService.getAllListAccount();
+        if (accountList != null) {
+            return accountList;
+        } else {
             return null;
         }
     }
+
     @GetMapping("/{key}")
-    public  Account getAccount(@PathVariable("key") AccountKey accountKey){
-        Account account= accountService.getAccount(accountKey);
-        return  account;
+    public Account getAccount(@PathVariable("key") AccountKey accountKey) {
+        if (accountKey != null) {
+            Account account = accountService.getAccount(accountKey);
+            return account;
+        } else {
+            return null;
+        }
+
     }
+
     @PostMapping("")
-    public AccountDTO newAccount(@RequestBody AccountDTO accountDTO){
-        AccountDTO account= accountService.insertAccount(accountDTO);
-        return  account;
+    public AccountDTO newAccount(@RequestBody AccountDTO accountDTO) {
+        if (accountDTO != null) {
+            AccountDTO account = accountService.insertAccount(accountDTO);
+            return account;
+        } else {
+            return null;
+        }
+
     }
+
     @PutMapping("")
-    public  AccountDTO updateAccount(@RequestBody AccountDTO accountDTO){
-        AccountDTO accountUpdate= accountService.updateAccount(accountDTO);
-        return accountDTO;
+    public AccountDTO updateAccount(@RequestBody AccountDTO accountDTO) {
+        if (accountDTO != null) {
+            AccountDTO accountUpdate = accountService.updateAccount(accountDTO);
+            return accountDTO;
+        } else {
+            return null;
+        }
     }
+
     @DeleteMapping("/{key}")
-    public String deleteAccount(@PathVariable("key") AccountKey accountKey){
-        return  null;
+    public String deleteAccount(@PathVariable("key") AccountKey accountKey) {
+
+        return null;
     }
 }
