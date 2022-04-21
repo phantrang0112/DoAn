@@ -5,10 +5,10 @@ import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.AccountKey;
 import com.Trang.webyte.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/webyte/account")
@@ -63,4 +63,14 @@ public class AccountController {
 
         return null;
     }
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody AccountDTO accountDTO){
+        Map<String,Object> account= accountService.login(accountDTO);
+        if(account!=null){
+            return account;
+        }
+
+        return  null;
+    }
+
 }

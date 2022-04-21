@@ -50,4 +50,5 @@ public interface RoleMapper {
 	 * @mbg.generated  Tue Apr 12 14:42:06 ICT 2022
 	 */
 	int updateByExample(@Param("record") Role record, @Param("example") RoleExample example);
+	Role selectByKey(int id);
 }

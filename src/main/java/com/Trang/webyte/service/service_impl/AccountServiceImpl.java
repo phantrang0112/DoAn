@@ -6,14 +6,26 @@ import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.AccountExample;
 import com.Trang.webyte.model.AccountKey;
 import com.Trang.webyte.service.AccountService;
+import com.Trang.webyte.util.jwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpHeaders;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountMapper accountMapper;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    com.Trang.webyte.util.jwtUtil jwtUtil;
+
     @Override
     public List<Account> getAllListAccount() {
         AccountExample accountExample= new AccountExample();
@@ -68,5 +80,31 @@ public class AccountServiceImpl implements AccountService {
         key.setId(id);
         int success= accountMapper.deleteByPrimaryKey(key);
         return  success;
+    }
+
+    @Override
+    public Map<String, Object> login(AccountDTO accountDTO) {
+        Map<String, Object> paren = new HashMap<String, Object>();
+        AccountExample accountExample= new AccountExample();
+        System.out.println(accountDTO.getPassword() + accountDTO.getUsername());
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(accountDTO.getUsername(), accountDTO.getPassword()));
+            accountExample.createCriteria().andUsernameEqualTo(accountDTO.getUsername());
+
+            List<Account> listEmployee = accountMapper.selectByExample(accountExample);
+            paren.put("username", listEmployee.get(0).getUsername());
+            paren.put("id", listEmployee.get(0).getId());
+            paren.put("message", "Đăng nhập thành công");
+            paren.put("token", jwtUtil.generateToken(accountDTO.getUsername()));
+            return paren;
+        } catch (Exception ex) {
+            System.out.println(ex);
+            paren.put("username", null);
+            paren.put("message", "Đăng nhập thất bại");
+            paren.put("token", null);
+            return paren;
+        }
+
     }
 }
