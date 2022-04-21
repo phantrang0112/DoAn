@@ -8,6 +8,7 @@ import com.Trang.webyte.model.AccountKey;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AccountService {
 
@@ -16,4 +17,5 @@ public interface AccountService {
     public AccountDTO insertAccount(AccountDTO account);
     public AccountDTO updateAccount(AccountDTO accountDTO);
     public int deleteAccount(int id);
+    public Map<String,Object> login(AccountDTO accountDTO);
 }

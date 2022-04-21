@@ -6,9 +6,11 @@ import com.Trang.webyte.model.NewsExample;
 import com.Trang.webyte.service.NewsService;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class NewsServiceImpl implements NewsService {
    @Autowired
     NewsMapper newsMapper;
