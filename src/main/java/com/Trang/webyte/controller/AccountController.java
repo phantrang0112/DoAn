@@ -42,6 +42,6 @@ public class AccountController {
     }
     @DeleteMapping("/{key}")
     public String deleteAccount(@PathVariable("key") AccountKey accountKey){
-        return  null;
+        return  "null";
     }
 }
