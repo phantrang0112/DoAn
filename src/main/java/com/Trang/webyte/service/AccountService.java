@@ -2,6 +2,7 @@ package com.Trang.webyte.service;
 
 
 import com.Trang.webyte.DTO.AccountDTO;
+import com.Trang.webyte.DTO.PatientDTO;
 import com.Trang.webyte.mapper.AccountMapper;
 import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.AccountKey;
@@ -14,7 +15,7 @@ public interface AccountService {
 
     public List<Account> getAllListAccount();
     public Account getAccount(AccountKey key);
-    public AccountDTO insertAccount(AccountDTO account);
+    public Account insertAccount(AccountDTO account);
     public AccountDTO updateAccount(AccountDTO accountDTO);
     public int deleteAccount(int id);
     public Map<String,Object> login(AccountDTO accountDTO);

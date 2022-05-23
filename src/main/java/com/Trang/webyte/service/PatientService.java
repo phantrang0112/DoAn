@@ -12,6 +12,8 @@ public interface PatientService {
 
     public PatientDTO insertPatient(PatientDTO patient);
 
+    public PatientDTO insertPatientSignup(int id, PatientDTO patientDTO);
+
     public PatientDTO updatePatient(PatientDTO patientDTO);
 
     public int deletePatient(int id);
