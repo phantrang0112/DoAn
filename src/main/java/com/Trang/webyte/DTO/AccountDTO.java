@@ -1,6 +1,28 @@
 package com.Trang.webyte.DTO;
 
+import io.swagger.models.auth.In;
+
+import java.util.Map;
+
 public class AccountDTO {
+    public AccountDTO() {
+    }
+
+    public AccountDTO(String password, Integer idrole, Integer id, String username) {
+        this.password = password;
+        this.idrole = idrole;
+        this.id = id;
+        this.username = username;
+    }
+
+    public AccountDTO(Map<String, Object> obj){
+        this.password = (String) obj.get("password");
+        this.idrole = (Integer) obj.get("idrole");
+        this.id = (Integer) obj.get("id");
+        this.username = (String) obj.get("username");
+    }
+
+
     public String getPassword() {
         return password;
     }
@@ -37,4 +59,14 @@ public class AccountDTO {
     private Integer idrole;
     private Integer id;
     private String username;
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "password='" + password + '\'' +
+                ", idrole=" + idrole +
+                ", id=" + id +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

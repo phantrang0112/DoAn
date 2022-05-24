@@ -6,13 +6,12 @@ import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.AccountExample;
 import com.Trang.webyte.model.AccountKey;
 import com.Trang.webyte.service.AccountService;
-import com.Trang.webyte.util.jwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpHeaders;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,10 @@ import java.util.Map;
 public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountMapper accountMapper;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -44,14 +47,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO insertAccount(AccountDTO accountDTO) {
+    public Account insertAccount(AccountDTO accountDTO) {
         Account acc= new Account();
         acc.setIdrole(accountDTO.getIdrole());
-        acc.setId(accountDTO.getId());
         acc.setUsername(accountDTO.getUsername());
+        acc.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         int success= accountMapper.insertSelective(acc);
+        AccountExample accountExample= new AccountExample();
+        accountExample.createCriteria().andUsernameEqualTo(acc.getUsername());
+        List<Account> account= accountMapper.selectByExample(accountExample);
         if(success>0){
-            return  accountDTO;
+            return  account.get(0);
         }
         else {
             return  null;

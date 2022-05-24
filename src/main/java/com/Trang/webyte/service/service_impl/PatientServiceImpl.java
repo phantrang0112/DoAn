@@ -50,6 +50,20 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public PatientDTO insertPatientSignup(int id, PatientDTO patientDTO) {
+        Patient patient = new Patient();
+        patient.setAccountid(id);
+        patient.setEmail(patientDTO.getEmail());
+        patient.setPhone(patientDTO.getPhone());
+        int success = patientMapper.insertSelective(patient);
+        if (success > 0) {
+            return patientDTO;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public PatientDTO updatePatient(PatientDTO patientDTO) {
         Patient patientUpdate = new Patient();
         patientUpdate.setAccountid(patientDTO.getAccountID());
