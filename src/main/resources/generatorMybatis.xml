@@ -80,6 +80,6 @@
 		<table tableName="typesick" domainObjectName="Type_Sick">
 		</table>
 		<table tableName="medical_bill" domainObjectName="Medical_bill" ></table>
-		<table tableName="price _of_medical_examination_service" domainObjectName="Price _Of_Medical_Examination_Service"></table>
+		<table tableName="price_of_medical_examination_service" domainObjectName="PriceOfMedicalExaminationService"></table>
 	</context>
 </generatorConfiguration>
