@@ -188,4 +188,18 @@ public class Patient {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
+
+	@Override
+	public String toString() {
+		return "Patient{" +
+				"id=" + id +
+				", fullname='" + fullname + '\'' +
+				", address='" + address + '\'' +
+				", phone='" + phone + '\'' +
+				", email='" + email + '\'' +
+				", accountid=" + accountid +
+				", img='" + img + '\'' +
+				", birthday=" + birthday +
+				'}';
+	}
 }

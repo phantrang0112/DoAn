@@ -5,10 +5,12 @@ import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.Patient;
 import com.Trang.webyte.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/patients")
 public class PatientController {
@@ -29,6 +31,7 @@ public class PatientController {
     public Patient getPatient(@PathVariable int patientId) {
         Patient patient;
         patient = patientService.getPatient(patientId);
+        System.err.println("PatientInfo = " + patient.toString());
         if (patient != null) {
             return patient;
         } else {
@@ -36,9 +39,10 @@ public class PatientController {
         }
     }
 
-    @PutMapping("")
+    @PutMapping("/update")
     public PatientDTO updatePatient(@RequestBody PatientDTO patientDTO) {
         PatientDTO patient;
+        System.err.println("PatientUpdate = "+patientDTO.toString());
         patient = patientService.updatePatient(patientDTO);
         if (patient != null) {
             return patient;

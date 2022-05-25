@@ -1,30 +1,34 @@
 package com.Trang.webyte.DTO;
 
+import java.util.Date;
 import java.util.Map;
 
 public class PatientDTO {
     public int patientID;
-    public int accountID;
+    public int accountid;
     public String address;
     public String email;
     public String fullName;
     public String img;
     public String phone;
 
+    public Date birthday;
+
     public PatientDTO() {
     }
 
-    public PatientDTO(int patientID, int accountID, String address, String email, String fullName, String img, String phone) {
+    public PatientDTO(int patientID, int accountid, String address, String email, String fullName, String img, String phone, Date birthday) {
         this.patientID = patientID;
-        this.accountID = accountID;
+        this.accountid = accountid;
         this.address = address;
         this.email = email;
         this.fullName = fullName;
         this.img = img;
         this.phone = phone;
+        this.birthday = birthday;
     }
 
-    public PatientDTO(Map<String, Object> obj){
+    public PatientDTO(Map<String, Object> obj) {
         this.email = (String) obj.get("email");
         this.phone = (String) obj.get("phone");
     }
@@ -37,12 +41,12 @@ public class PatientDTO {
         this.patientID = patientID;
     }
 
-    public int getAccountID() {
-        return accountID;
+    public int getAccountid() {
+        return accountid;
     }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
+    public void setAccountid(int accountID) {
+        this.accountid = accountID;
     }
 
     public String getAddress() {
@@ -85,16 +89,33 @@ public class PatientDTO {
         this.phone = phone;
     }
 
+    public int getPatientID() {
+        return patientID;
+    }
+
+    public void setPatientID(int accountid) {
+        this.patientID = accountid;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
         return "PatientDTO{" +
                 "patientID=" + patientID +
-                ", accountID=" + accountID +
+                ", accountID=" + accountid +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", img='" + img + '\'' +
                 ", phone='" + phone + '\'' +
+                ", birthday='" + birthday + '\'' +
                 '}';
     }
 }
