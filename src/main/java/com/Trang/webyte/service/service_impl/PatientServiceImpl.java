@@ -24,9 +24,11 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient getPatient(int id) {
-        Patient patient = patientMapper.selectByPrimaryKey(id);
+        PatientExample patientExample =  new PatientExample();
+        patientExample.createCriteria().andAccountidEqualTo(id);
+        List<Patient> patient= patientMapper.selectByExample(patientExample);
         if (patient != null) {
-            return patient;
+            return patient.get(0);
         }
         return null;
     }
@@ -34,13 +36,14 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientDTO insertPatient(PatientDTO patientDTO) {
         Patient patient = new Patient();
-        patient.setAccountid(patientDTO.getAccountID());
+        patient.setAccountid(patientDTO.getAccountid());
         patient.setId(patientDTO.getId());
         patient.setFullname(patientDTO.getFullName());
         patient.setEmail(patientDTO.getEmail());
         patient.setAddress(patientDTO.getAddress());
         patient.setImg(patientDTO.getImg());
         patient.setPhone(patientDTO.getPhone());
+        patient.setBirthday(patientDTO.getBirthday());
         int success = patientMapper.insertSelective(patient);
         if (success > 0) {
             return patientDTO;
@@ -65,8 +68,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientDTO updatePatient(PatientDTO patientDTO) {
+        System.err.println(patientDTO.toString());
         Patient patientUpdate = new Patient();
-        patientUpdate.setAccountid(patientDTO.getAccountID());
+        patientUpdate.setAccountid(patientDTO.getAccountid());
         patientUpdate.setId(patientDTO.getId());
         patientUpdate.setFullname(patientDTO.getFullName());
         patientUpdate.setEmail(patientDTO.getEmail());
