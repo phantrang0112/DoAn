@@ -1,5 +1,6 @@
 package com.Trang.webyte.service;
 
+import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.model.Dept;
 import com.Trang.webyte.model.Doctor;
 
@@ -11,4 +12,5 @@ public interface DoctorService {
     public Doctor insertDoctor(Doctor doctor);
     public Doctor updateDoctor(Doctor doctor);
     public int deleteDoctor(int id);
+    List<DoctorDTO> selectAllDoctor();
 }
