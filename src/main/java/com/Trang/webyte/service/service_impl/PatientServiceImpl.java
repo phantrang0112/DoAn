@@ -8,6 +8,10 @@ import com.Trang.webyte.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -43,7 +47,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setAddress(patientDTO.getAddress());
         patient.setImg(patientDTO.getImg());
         patient.setPhone(patientDTO.getPhone());
-        patient.setBirthday(patientDTO.getBirthday());
+//        patient.setBirthday(patientDTO.getBirthday());
         int success = patientMapper.insertSelective(patient);
         if (success > 0) {
             return patientDTO;
@@ -68,20 +72,28 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientDTO updatePatient(PatientDTO patientDTO) {
-        System.err.println(patientDTO.toString());
-        Patient patientUpdate = new Patient();
-        patientUpdate.setAccountid(patientDTO.getAccountid());
-        patientUpdate.setId(patientDTO.getId());
-        patientUpdate.setFullname(patientDTO.getFullName());
-        patientUpdate.setEmail(patientDTO.getEmail());
-        patientUpdate.setAddress(patientDTO.getAddress());
-        patientUpdate.setImg(patientDTO.getImg());
-        patientUpdate.setPhone(patientDTO.getPhone());
-        int success = patientMapper.updateByPrimaryKeySelective(patientUpdate);
-        if (success > 0) {
-            return patientDTO;
-        } else {
-            return null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = formatter.parse(patientDTO.getBirthday());
+            System.err.println(date);
+            Patient patientUpdate = new Patient();
+            patientUpdate.setAccountid(patientDTO.getAccountid());
+            patientUpdate.setId(patientDTO.getId());
+            patientUpdate.setFullname(patientDTO.getFullName());
+            patientUpdate.setEmail(patientDTO.getEmail());
+            patientUpdate.setAddress(patientDTO.getAddress());
+            patientUpdate.setImg(patientDTO.getImg());
+            patientUpdate.setPhone(patientDTO.getPhone());
+            patientUpdate.setBirthday(date);
+            System.err.println(patientUpdate.toString());
+            int success = patientMapper.updateByPrimaryKeySelective(patientUpdate);
+            if (success > 0) {
+                return patientDTO;
+            } else {
+                return null;
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 
