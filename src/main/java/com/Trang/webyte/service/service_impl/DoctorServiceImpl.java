@@ -1,5 +1,6 @@
 package com.Trang.webyte.service.service_impl;
 
+import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.mapper.DoctorMapper;
 import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.model.DoctorExample;
@@ -70,6 +71,18 @@ public class DoctorServiceImpl implements DoctorService {
         }
         else{
             return 0;
+        }
+
+    }
+
+    @Override
+    public List<DoctorDTO> selectAllDoctor() {
+        List< DoctorDTO> listDoctorDTO= (List<DoctorDTO>) doctorMapper.selectAllDoctor();
+        if(listDoctorDTO.size()>0){
+            return listDoctorDTO;
+        }
+        else {
+            return null;
         }
 
     }

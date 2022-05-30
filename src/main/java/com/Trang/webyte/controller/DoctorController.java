@@ -1,5 +1,6 @@
 package com.Trang.webyte.controller;
 
+import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.print.Doc;
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/webyte/Doctor")
+@RequestMapping("/webyte/doctor")
 public class DoctorController {
     @Autowired
     DoctorService doctorService;
@@ -59,5 +61,10 @@ public class DoctorController {
         else {
             return 0;
         }
+    }
+    @GetMapping("/all")
+    public List<DoctorDTO> getAllDoctor1(){
+        List<DoctorDTO> listDoctor= doctorService.selectAllDoctor();
+        return listDoctor;
     }
 }
