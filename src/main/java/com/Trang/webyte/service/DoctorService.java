@@ -5,6 +5,7 @@ import com.Trang.webyte.model.Dept;
 import com.Trang.webyte.model.Doctor;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DoctorService {
     public List<Doctor> getAllListDoctor();
@@ -12,5 +13,5 @@ public interface DoctorService {
     public Doctor insertDoctor(Doctor doctor);
     public Doctor updateDoctor(Doctor doctor);
     public int deleteDoctor(int id);
-    List<DoctorDTO> selectAllDoctor();
+    List<Map<String,Object>>  selectAllDoctor();
 }
