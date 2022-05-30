@@ -12,12 +12,12 @@ public class PatientDTO {
     public String img;
     public String phone;
 
-    public Date birthday;
+    public String birthday;
 
     public PatientDTO() {
     }
 
-    public PatientDTO(int patientID, int accountid, String address, String email, String fullName, String img, String phone, Date birthday) {
+    public PatientDTO(int patientID, int accountid, String address, String email, String fullName, String img, String phone, String birthday) {
         this.patientID = patientID;
         this.accountid = accountid;
         this.address = address;
@@ -97,11 +97,11 @@ public class PatientDTO {
         this.patientID = accountid;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
