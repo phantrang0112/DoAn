@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -63,8 +64,8 @@ public class DoctorController {
         }
     }
     @GetMapping("/all")
-    public List<DoctorDTO> getAllDoctor1(){
-        List<DoctorDTO> listDoctor= doctorService.selectAllDoctor();
+    public List<Map<String,Object>>  getAllDoctor1(){
+        List<Map<String,Object>>  listDoctor= doctorService.selectAllDoctor();
         return listDoctor;
     }
 }

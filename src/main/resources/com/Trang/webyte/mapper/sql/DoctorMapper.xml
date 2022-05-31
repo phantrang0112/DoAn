@@ -346,8 +346,9 @@
     where doctorid = #{doctorid,jdbcType=INTEGER}
   </update>
   <select id="selectAllDoctor" resultType="map">
-    select doctor.*,dept.deptname
-    from doctor, dept
-where dept.deptid=doctor.deptid
+    select doctor.*, dept.deptname
+    from doctor,
+         dept
+    where dept.deptid = doctor.deptid
   </select>
 </mapper>

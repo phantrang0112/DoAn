@@ -4,6 +4,7 @@ import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.model.DoctorExample;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -75,5 +76,5 @@ public interface DoctorMapper {
 	 * @mbg.generated  Mon May 30 17:00:26 ICT 2022
 	 */
 	int updateByPrimaryKey(Doctor row);
-	List<DoctorDTO> selectAllDoctor();
+	List<Map<String,Object>> selectAllDoctor();
 }

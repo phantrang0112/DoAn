@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -76,8 +77,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorDTO> selectAllDoctor() {
-        List< DoctorDTO> listDoctorDTO= (List<DoctorDTO>) doctorMapper.selectAllDoctor();
+    public List<Map<String,Object>> selectAllDoctor() {
+        List<Map<String,Object>>  listDoctorDTO=  doctorMapper.selectAllDoctor();
         if(listDoctorDTO.size()>0){
             return listDoctorDTO;
         }
