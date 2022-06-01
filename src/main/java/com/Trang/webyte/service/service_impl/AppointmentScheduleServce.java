@@ -48,6 +48,23 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
   }
 
   @Override
+  public List<AppointmentScheduleDTO> getAllAppointmentScheduleByDoctor(String username) {
+    Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
+    List<Appointment_Schedule> listAppoint = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+
+    List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
+    for (Appointment_Schedule item : listAppoint) {
+      Doctor doctor= doctorMapper.selectByPrimaryKey(item.getDoctorid());
+      Patient patient= patientMapper.selectByPrimaryKey(item.getPatientid());
+      System.out.println(item.getDate());
+      AppointmentScheduleDTO itemDTO= new AppointmentScheduleDTO(item,doctor.getFullname(),patient.getFullname());
+      System.out.println(itemDTO.getDate());
+      listAppointSchedule.add(itemDTO);
+    }
+    return listAppointSchedule;
+  }
+
+  @Override
   public Appointment_Schedule getAppointmentSchedule(int key) {
     Appointment_Schedule appointment_schedule = appointment_scheduleMapper.selectByPrimaryKey(key);
     if (appointment_schedule != null) {

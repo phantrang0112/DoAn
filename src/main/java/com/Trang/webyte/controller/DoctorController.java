@@ -21,10 +21,11 @@ public class DoctorController {
         List<Doctor> listDoctor= doctorService.getAllListDoctor();
         return  listDoctor;
     }
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Doctor getDoctor(@PathVariable("id")int id){
-        if(id>0){
-            Doctor doctor= doctorService.getDoctor(id);
+        Doctor doctor;
+        doctor = doctorService.getDoctor(id);
+        if(doctor != null){
             return  doctor;
         }
         else {
