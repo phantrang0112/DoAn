@@ -45,8 +45,6 @@
 		</table>
 		<table tableName="doctor" domainObjectName="Doctor">
 		</table>
-		<table tableName="dutyshedule" domainObjectName="Dutyschedule">
-		</table>
 		<table tableName="healthrecords" domainObjectName="Healthrecords">
 		</table>
 		<table tableName="medicine" domainObjectName="Medicine">
@@ -81,5 +79,6 @@
 		</table>
 		<table tableName="medical_bill" domainObjectName="Medical_bill" ></table>
 		<table tableName="price_of_medical_examination_service" domainObjectName="PriceOfMedicalExaminationService"></table>
+		<table tableName="dutyschedule" domainObjectName="DutySchedule"></table>
 	</context>
 </generatorConfiguration>

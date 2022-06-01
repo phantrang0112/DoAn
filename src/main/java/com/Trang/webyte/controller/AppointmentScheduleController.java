@@ -1,5 +1,6 @@
 package com.Trang.webyte.controller;
 
+import com.Trang.webyte.DTO.AppointmentScheduleDTO;
 import com.Trang.webyte.model.Appointment_Schedule;
 import com.Trang.webyte.service.AppointmentScheduleServce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/webyte/appointment-schedule")
 public class AppointmentScheduleController {
@@ -15,6 +17,11 @@ public class AppointmentScheduleController {
     @GetMapping()
     public List<Appointment_Schedule> getAllAppointment(){
         List<Appointment_Schedule> listAppointment= appointmentScheduleServce.getAllListAppointmentSchedule();
+        return listAppointment;
+    }
+    @GetMapping("/all")
+    public List<AppointmentScheduleDTO> getAllAppoint(){
+        List<AppointmentScheduleDTO> listAppointment=  appointmentScheduleServce.getAllAppointmentSchedule();
         return listAppointment;
     }
     @GetMapping("/{id}")
