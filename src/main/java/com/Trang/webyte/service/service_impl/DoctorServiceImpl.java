@@ -41,6 +41,20 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor getDoctorFormLogin(int key) {
+        DoctorExample doctorExample = new DoctorExample();
+        doctorExample.createCriteria().andAccountidEqualTo(key);
+        List<Doctor> doctor = doctorMapper.selectByExample(doctorExample);
+        if(doctor!=null){
+            return  doctor.get(0);
+        }
+        else {
+            return null;
+        }
+
+    }
+
+    @Override
     public Doctor insertDoctor(Doctor doctor) {
         int success= doctorMapper.insertSelective(doctor);
         if(success>0){
