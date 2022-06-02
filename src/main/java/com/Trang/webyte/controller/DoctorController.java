@@ -1,12 +1,14 @@
 package com.Trang.webyte.controller;
 
-import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.model.Doctor;
+import com.Trang.webyte.model.PriceOfMedicalExaminationService;
 import com.Trang.webyte.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.Doc;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,19 @@ public class DoctorController {
     public List<Doctor> getAllDoctor(){
         List<Doctor> listDoctor= doctorService.getAllListDoctor();
         return  listDoctor;
+    }
+    @GetMapping("/{deptid}/{date}")
+    public List<Map<String,Object>> getAllDoctorByDept(@PathVariable("deptid") int deptid, @PathVariable("date") String day) throws ParseException {
+        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(deptid+day);
+        Date date = formatter2.parse(day);
+        List<Map<String,Object>> listDoctor= doctorService.getListDoctorByDept(deptid,date);
+        return  listDoctor;
+    }
+    @GetMapping("get-price-doctor/{id}")
+    public PriceOfMedicalExaminationService getPriceDoctor(@PathVariable("id")int id){
+        PriceOfMedicalExaminationService price= doctorService.getPriceDoctor(id);
+        return  price;
     }
     @GetMapping("/{id}")
     public Doctor getDoctor(@PathVariable("id")int id){
