@@ -26,8 +26,8 @@ public class AppointmentScheduleController {
     }
 
     @GetMapping("/allByDoctor")
-    public List<AppointmentScheduleDTO> getAllAppoint(@PathVariable("id") int doctorID){
-        List<AppointmentScheduleDTO> listAppointment=  appointmentScheduleServce.getAllAppointmentScheduleByDoctor(doctorID);
+    public List<AppointmentScheduleDTO> getAllAppoint(@PathVariable("username") String username){
+        List<AppointmentScheduleDTO> listAppointment=  appointmentScheduleServce.getAllAppointmentScheduleByDoctor(username);
         return listAppointment;
     }
 

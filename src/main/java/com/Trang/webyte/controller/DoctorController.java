@@ -52,10 +52,9 @@ public class DoctorController {
         return  price;
     }
     @GetMapping("/{id}")
-    public Doctor getDoctorById(@PathVariable("id") int id) {
+    public Doctor getDoctor(@PathVariable("id")int id) {
         Doctor doctor;
-        System.err.println("doctorId = " + id);
-        doctor = doctorService.getDoctorFormLogin(id);
+        doctor = doctorService.getDoctor(id);
         if (doctor != null) {
             return doctor;
         } else {
