@@ -1,13 +1,17 @@
 package com.Trang.webyte.service.service_impl;
 
-import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.mapper.DoctorMapper;
+import com.Trang.webyte.mapper.PriceOfMedicalExaminationServiceMapper;
 import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.model.DoctorExample;
+import com.Trang.webyte.model.PriceOfMedicalExaminationService;
+import com.Trang.webyte.model.PriceOfMedicalExaminationServiceExample;
 import com.Trang.webyte.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +19,8 @@ import java.util.Map;
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
     DoctorMapper doctorMapper;
+    @Autowired
+    PriceOfMedicalExaminationServiceMapper priceOfMedicalExaminationServiceMapper;
     @Override
     public List<Doctor> getAllListDoctor() {
         DoctorExample doctorExample= new DoctorExample();
@@ -99,6 +105,24 @@ public class DoctorServiceImpl implements DoctorService {
         else {
             return null;
         }
+
+    }
+
+    @Override
+    public List<Map<String,Object>> getListDoctorByDept(int depId, Date date) {
+        Map<String,Object> resul= new HashMap<>();
+        resul.put("deptid",depId);
+        resul.put("date",date);
+        List<Map<String,Object>> listDoctor= doctorMapper.getListDoctorByDept(resul);
+        return listDoctor;
+    }
+
+    @Override
+    public PriceOfMedicalExaminationService getPriceDoctor(int id) {
+        PriceOfMedicalExaminationServiceExample price= new PriceOfMedicalExaminationServiceExample();
+        price.createCriteria().andDoctortidEqualTo(id);
+        List<PriceOfMedicalExaminationService> list = priceOfMedicalExaminationServiceMapper.selectByExample(price);
+        return list.get(0);
 
     }
 

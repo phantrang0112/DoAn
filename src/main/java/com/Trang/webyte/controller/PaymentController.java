@@ -13,9 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/pay")
 public class PaymentController {
   private Logger log = LoggerFactory.getLogger(getClass());
   @Autowired
@@ -24,10 +28,12 @@ public class PaymentController {
   public String index(){
     return "index";
   }
-  @PostMapping("/pay")
-  public String pay(@RequestBody() double price , HttpServletRequest request ){
-    String cancelUrl = PaypalUtil.getBaseURL(request) + "/cancel" ;
-    String successUrl = "http://localhost:4200/#/user/about" ;
+  @PostMapping("")
+  public Map<String,Object> pay(@RequestBody() double price  ){
+    System.out.println(price);
+    Map<String,Object> linkPayment=new HashMap<>();
+    String cancelUrl ="http://localhost:4200/#/user/payment";
+    String successUrl = "http://localhost:4200/#/user/payment" ;
     try {
       Payment payment = paypalService.createPayment(
               price,
@@ -40,7 +46,8 @@ public class PaymentController {
              );
       for(Links links : payment.getLinks()){
         if("approval_url".equals(links.getRel())){
-          return links.getHref();
+          linkPayment.put("linkPayment",links.getHref());
+          return linkPayment;
         }
       }
     } catch (PayPalRESTException e) {
@@ -53,15 +60,19 @@ public class PaymentController {
     return "cancel";
   }
   @GetMapping("/success")
-  public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+  public Map<String,Object> successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+    Map<String,Object> success=new HashMap<>();
     try {
+
       Payment payment = paypalService.executePayment(paymentId, payerId);
       if(payment.getState().equals("approved")){
-        return "success";
+        success.put("success","success");
+        return success;
       }
+      success.put("success","error");
     } catch (PayPalRESTException e) {
       log.error(e.getMessage());
     }
-    return "error";
+    return success;
   }
 }
