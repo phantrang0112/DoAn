@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AppointmentScheduleServce implements com.Trang.webyte.service.AppointmentScheduleServce {
@@ -37,10 +39,10 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
 
     List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
     for (Appointment_Schedule item : listAppoint) {
-       Doctor doctor= doctorMapper.selectByPrimaryKey(item.getDoctorid());
-      Patient patient= patientMapper.selectByPrimaryKey(item.getPatientid());
+      Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
+      Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
       System.out.println(item.getDate());
-      AppointmentScheduleDTO itemDTO= new AppointmentScheduleDTO(item,doctor.getFullname(),patient.getFullname());
+      AppointmentScheduleDTO itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
       System.out.println(itemDTO.getDate());
       listAppointSchedule.add(itemDTO);
     }
@@ -51,13 +53,12 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
   public List<AppointmentScheduleDTO> getAllAppointmentScheduleByDoctor(String username) {
     Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
     List<Appointment_Schedule> listAppoint = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
-
     List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
     for (Appointment_Schedule item : listAppoint) {
-      Doctor doctor= doctorMapper.selectByPrimaryKey(item.getDoctorid());
-      Patient patient= patientMapper.selectByPrimaryKey(item.getPatientid());
+      Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
+      Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
       System.out.println(item.getDate());
-      AppointmentScheduleDTO itemDTO= new AppointmentScheduleDTO(item,doctor.getFullname(),patient.getFullname());
+      AppointmentScheduleDTO itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
       System.out.println(itemDTO.getDate());
       listAppointSchedule.add(itemDTO);
     }
@@ -76,13 +77,18 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
 
   @Override
   public Appointment_Schedule insertAppointmentSchedule(Appointment_Schedule appointment_schedule) {
-    Appointment_Schedule appointment_schedule1 = new Appointment_Schedule();
-    int success = appointment_scheduleMapper.insertSelective(appointment_schedule);
-    if (success > 0) {
-      return appointment_schedule;
-    } else {
-      return null;
+    if (appointment_schedule != null) {
+      if (appointment_schedule.getTypeclinic().equals("Offline")) {
+
+      }
+      int success = appointment_scheduleMapper.insertSelective(appointment_schedule);
+      if (success > 0) {
+        return appointment_schedule;
+      } else {
+        return null;
+      }
     }
+    return null;
   }
 
   @Override
@@ -102,6 +108,20 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
       return 0;
     } else {
       return 1;
+    }
+  }
+
+  @Override
+  public Appointment_Schedule selectTop1Appoint() {
+    return null;
+  }
+  @Override
+  public List<Map<String, Object>> getCountTimeFull(Date date) {
+    try{
+      List<Map<String,Object>> listCountTime= appointment_scheduleMapper.countTimeFull(date);
+      return  listCountTime;
+    } catch (Exception e) {
+      return null;
     }
   }
 }

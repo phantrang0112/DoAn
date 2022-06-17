@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,10 @@ public class DoctorController {
         return  listDoctor;
     }
     @GetMapping("get-price-doctor/{id}")
-    public PriceOfMedicalExaminationService getPriceDoctor(@PathVariable("id")int id){
-        PriceOfMedicalExaminationService price= doctorService.getPriceDoctor(id);
+    public Map<String,Object> getPriceDoctor(@PathVariable("id")int id, @RequestParam("date") String date1) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date= dateFormat.parse(date1);
+        Map<String,Object> price= doctorService.getPriceDoctor(id,date);
         return  price;
     }
     @GetMapping("/{id}")

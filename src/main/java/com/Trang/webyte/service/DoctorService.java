@@ -16,5 +16,5 @@ public interface DoctorService {
     public int deleteDoctor(int id);
     List<Map<String,Object>>  selectAllDoctor();
     public List<Map<String,Object>>getListDoctorByDept(int deptId, Date date);
-    public PriceOfMedicalExaminationService getPriceDoctor(int id);
+    public Map<String,Object> getPriceDoctor(int id,Date date);
 }

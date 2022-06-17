@@ -332,4 +332,19 @@
       typeClinic = #{typeclinic,jdbcType=VARCHAR}
     where idappointment_schedule = #{idappointmentSchedule,jdbcType=INTEGER}
   </update>
+  <select id="selectTop1Appoint" parameterType="Map" resultMap="BaseResultMap">
+    SELECT  *
+    FROM appointment_schedule as a
+    WHERE  a.
+    order by a.number desc
+      limit 1;
+  </select>
+  <select id="countTimeFull" resultType="java.util.Map" parameterType="java.util.Date">
+    select DISTINCT b.*
+    from qlyt.appointment_schedule as a,
+         (select qlyt.appointment_schedule.time, count(qlyt.appointment_schedule.time) as countTime
+          from qlyt.appointment_schedule
+          group by qlyt.appointment_schedule.time) as b
+    where a.time=b.time and b.countTime>1 and a.date= #{date,jdbcType=DATE}
+  </select>
 </mapper>
