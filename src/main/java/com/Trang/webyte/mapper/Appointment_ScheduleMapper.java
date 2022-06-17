@@ -2,7 +2,10 @@ package com.Trang.webyte.mapper;
 
 import com.Trang.webyte.model.Appointment_Schedule;
 import com.Trang.webyte.model.Appointment_ScheduleExample;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -75,4 +78,6 @@ public interface Appointment_ScheduleMapper {
 	 * @mbg.generated  Thu Jun 02 12:01:52 ICT 2022
 	 */
 	int updateByPrimaryKey(Appointment_Schedule row);
+	Appointment_Schedule selectTop1Appoint();
+	List<Map<String,Object>> countTimeFull(Date date);
 }

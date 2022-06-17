@@ -6,7 +6,11 @@ import com.Trang.webyte.service.AppointmentScheduleServce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -41,6 +45,7 @@ public class AppointmentScheduleController {
     }
     @PostMapping()
     public  Appointment_Schedule insertAppointment(@RequestBody Appointment_Schedule appointment_schedule){
+        System.out.println(appointment_schedule.getPatientid());
         if(appointment_schedule!=null){
             Appointment_Schedule appointment_schedule1= appointmentScheduleServce.insertAppointmentSchedule(appointment_schedule);
             return  appointment_schedule1;
@@ -64,5 +69,12 @@ public class AppointmentScheduleController {
         else {
             return  0;
         }
+    }
+    @GetMapping("/count-time/{date}")
+    public List<Map<String,Object>> getAllCountTime(@PathVariable("date") String date1) throws ParseException {
+        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter2.parse(date1);
+        List<Map<String,Object>> listCountTime= appointmentScheduleServce.getCountTimeFull(date);
+        return  listCountTime;
     }
 }
