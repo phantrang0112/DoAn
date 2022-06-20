@@ -67,6 +67,7 @@ public class AccountController {
 
     @PostMapping("/signupUser")
     public Account newAccount(@RequestBody List<Map> register) {
+        System.out.println(register.get(0).get("idrole"));
         AccountDTO accountDTO = new AccountDTO(register.get(0));
         PatientDTO patientDTO = new PatientDTO(register.get(1));
         if (accountDTO != null && patientDTO != null) {
