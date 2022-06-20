@@ -88,7 +88,7 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
         Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
         int success = 0;
         if (appointment_schedule != null) {
-            appointment_schedule.setStatus("success");
+            appointment_schedule.setStatus("info");
             if (appointment_schedule.getTypeclinic().equals("Offline")) {
                 appointment_scheduleExample.createCriteria().andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
                 appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause() + "," + "number DESC");
@@ -105,19 +105,28 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
                 }
 
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
+                if (success > 0) {
+                    appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDoctoridEqualTo(appointment_schedule.getDoctorid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
+                    List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+
+                    return list.get(0);
+                } else {
+                    return null;
+                }
             } else {
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
+                if (success > 0) {
+                    appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
+                    List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+
+                    return list.get(0);
+                } else {
+                    return null;
+                }
             }
 
 
-            if (success > 0) {
-                appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDoctoridEqualTo(appointment_schedule.getDoctorid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
-                List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
 
-                return list.get(0);
-            } else {
-                return null;
-            }
         }
         return null;
     }

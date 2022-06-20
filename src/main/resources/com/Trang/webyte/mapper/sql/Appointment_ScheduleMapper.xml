@@ -346,6 +346,6 @@
           from qlyt.appointment_schedule
            where  qlyt.appointment_schedule.date = #{date,jdbcType=DATE}
           group by qlyt.appointment_schedule.time) as b
-    where a.time=b.time and b.countTime>0 and a.date= #{date,jdbcType=DATE}
+    where a.time=b.time and b.countTime>2 and a.date= #{date,jdbcType=DATE}
   </select>
 </mapper>
