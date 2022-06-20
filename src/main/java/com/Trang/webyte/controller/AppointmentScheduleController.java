@@ -43,6 +43,15 @@ public class AppointmentScheduleController {
         }
         return null;
     }
+    @GetMapping("/appointById/{id}")
+    public AppointmentScheduleDTO getAppointmentById(@PathVariable("id") int id){
+        System.out.println(id);
+        if(id>0){
+            AppointmentScheduleDTO appointment_schedule= appointmentScheduleServce.getAppointmentScheduleById(id);
+            return  appointment_schedule;
+        }
+        return null;
+    }
     @PostMapping()
     public  Appointment_Schedule insertAppointment(@RequestBody Appointment_Schedule appointment_schedule){
         System.out.println(appointment_schedule.getPatientid());
@@ -73,8 +82,10 @@ public class AppointmentScheduleController {
     @GetMapping("/count-time/{date}")
     public List<Map<String,Object>> getAllCountTime(@PathVariable("date") String date1) throws ParseException {
         SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(date1);
         Date date = formatter2.parse(date1);
         List<Map<String,Object>> listCountTime= appointmentScheduleServce.getCountTimeFull(date);
         return  listCountTime;
     }
 }
+
