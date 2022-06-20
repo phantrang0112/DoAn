@@ -59,11 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       return configuration;
     });
     ;
-    httpSecurity.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated()
+    httpSecurity.authorizeRequests().antMatchers("/webyte/account/**","/webyte/doctor/**","/webyte/news/**","/webyte/dept/**","/**").permitAll().anyRequest().authenticated()
 //.and().formLogin().permitAll();
             .and().exceptionHandling().and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+       httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 //        httpSecurity.antMatcher("/**").authorizeRequests().anyRequest().permitAll();
   }
 

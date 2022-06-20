@@ -1,7 +1,12 @@
 package com.Trang.webyte.controller;
 
+import com.Trang.webyte.DTO.AppointmentPayment;
+import com.Trang.webyte.DTO.AppointmentScheduleDTO;
 import com.Trang.webyte.config.PaypalPaymentIntent;
 import com.Trang.webyte.config.PaypalPaymentMethod;
+import com.Trang.webyte.model.Appointment_Schedule;
+import com.Trang.webyte.model.Medical_bills;
+import com.Trang.webyte.service.MedicalbillService;
 import com.Trang.webyte.service.service_impl.PaypalService;
 import com.Trang.webyte.util.PaypalUtil;
 import com.paypal.api.payments.Links;
@@ -24,19 +29,21 @@ public class PaymentController {
   private Logger log = LoggerFactory.getLogger(getClass());
   @Autowired
   private PaypalService paypalService;
+  @Autowired
+  private MedicalbillService medicalbillService;
   @GetMapping("/")
   public String index(){
     return "index";
   }
   @PostMapping("")
-  public Map<String,Object> pay(@RequestBody() double price  ){
-    System.out.println(price);
+  public Map<String,Object> pay(@RequestBody() AppointmentPayment appoint  ){
+    System.out.println(appoint.toString());
     Map<String,Object> linkPayment=new HashMap<>();
-    String cancelUrl ="http://localhost:4200/#/user/payment";
-    String successUrl = "http://localhost:4200/#/user/payment" ;
+    String cancelUrl ="http://localhost:4200/#/user/payment/";
+    String successUrl = "http://localhost:4200/#/user/payment/?id="+appoint.getIdappointmentSchedule() ;
     try {
       Payment payment = paypalService.createPayment(
-              price,
+              appoint.getPrice(),
               "USD",
               PaypalPaymentMethod.paypal,
               PaypalPaymentIntent.sale,
@@ -59,15 +66,25 @@ public class PaymentController {
   public String cancelPay(){
     return "cancel";
   }
-  @GetMapping("/success")
-  public Map<String,Object> successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+  @PostMapping("/success")
+  public Map<String,Object> successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, @RequestBody AppointmentScheduleDTO appointmentScheduleDTO){
     Map<String,Object> success=new HashMap<>();
+    Medical_bills medical_bills= new Medical_bills();
+    System.out.println(appointmentScheduleDTO.toString());
     try {
 
       Payment payment = paypalService.executePayment(paymentId, payerId);
       if(payment.getState().equals("approved")){
-        success.put("success","success");
-        return success;
+
+        medical_bills.setPrice(appointmentScheduleDTO.getPrice());
+        medical_bills.setDutyscheduleid(appointmentScheduleDTO.getIdappointmentSchedule());
+        medical_bills.setStatus("success");
+        Medical_bills createMedicalBill = medicalbillService.insertMedical_bills(medical_bills);
+        if(createMedicalBill!=null){
+          success.put("success","success");
+          return success;
+        }
+
       }
       success.put("success","error");
     } catch (PayPalRESTException e) {

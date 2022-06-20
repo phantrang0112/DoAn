@@ -1,26 +1,34 @@
 package com.Trang.webyte.controller;
 
 import com.Trang.webyte.DTO.AccountDTO;
+import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.DTO.PatientDTO;
+import com.Trang.webyte.mapper.DoctorMapper;
 import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.AccountKey;
+import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.model.Patient;
 import com.Trang.webyte.service.AccountService;
 import com.Trang.webyte.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.Doc;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RestController
 @RequestMapping("/webyte/account")
 public class AccountController {
     @Autowired
     AccountService accountService;
-
+    private String fileUpload;
     @Autowired
     PatientService patientService;
 
@@ -95,6 +103,33 @@ public class AccountController {
         Map<String, Object> account = accountService.login(accountDTO);
         if (account != null) {
             return account;
+        }
+        return null;
+    }
+
+    @Autowired
+    DoctorMapper doctorMapper;
+
+    @PutMapping("/upload/{id}")
+    public Doctor UploadImg(@RequestParam("img") MultipartFile img,@RequestParam("data") DoctorDTO doctorDTO, @PathVariable("id") int id) throws IOException {
+        System.out.println(doctorDTO.getFullname()+doctorDTO.getPhone());
+        String fileUpload = "Y:\\";
+        doctorDTO.setImg(img);
+        if (doctorDTO != null) {
+            Doctor doctor = doctorMapper.selectByPrimaryKey(doctorDTO.getDoctorid());
+            if (doctor != null) {
+
+                try {
+                    MultipartFile multipartFile = doctorDTO.getImg();
+                    String fileName = ((MultipartFile) multipartFile).getOriginalFilename();
+                    FileCopyUtils.copy(doctorDTO.getImg().getBytes(), new File(fileUpload + fileName));
+                    Doctor doctorUpdate = new Doctor(doctorDTO, fileName);
+                    doctorMapper.updateByPrimaryKeySelective(doctorUpdate);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
         }
         return null;
     }

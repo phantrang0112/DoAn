@@ -14,6 +14,15 @@ public class AppointmentScheduleDTO {
   private Date date;
 
   private String status;
+  private double price;
+
+  public double getPrice() {
+    return price;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
+  }
 
   public AppointmentScheduleDTO() {
   }
@@ -110,5 +119,17 @@ public class AppointmentScheduleDTO {
     this.number = appointment_schedule.getNumber();
     this.time = appointment_schedule.getTime();
     this.typeClinic = appointment_schedule.getTypeclinic();
+
+  }
+  public AppointmentScheduleDTO(Appointment_Schedule appointment_schedule, String patient) {
+    this.idappointmentSchedule = appointment_schedule.getIdappointmentSchedule();
+
+    this.patientName = patient;
+    this.date = appointment_schedule.getDate();
+    this.status = appointment_schedule.getStatus();
+    this.number = appointment_schedule.getNumber();
+    this.time = appointment_schedule.getTime();
+    this.typeClinic = appointment_schedule.getTypeclinic();
+
   }
 }

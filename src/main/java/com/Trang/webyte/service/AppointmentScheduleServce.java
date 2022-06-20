@@ -18,4 +18,5 @@ public interface AppointmentScheduleServce {
     public int deleteAppointmentSchedule(int id);
     public  Appointment_Schedule selectTop1Appoint();
     public List<Map<String,Object>> getCountTimeFull(Date date);
+    public AppointmentScheduleDTO getAppointmentScheduleById(int id);
 }
