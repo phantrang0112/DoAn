@@ -73,14 +73,12 @@
 		</table>
 		<table tableName="topic" domainObjectName="Topic">
 		</table>
-		<table tableName="typeofclinic" domainObjectName="Type_Of_Clinic">
-		</table>
 		<table tableName="typesick" domainObjectName="Type_Sick">
 		</table>
 		<table tableName="typesick_detail" domainObjectName="Type_Sick_Detail">
 		</table>
 		<table tableName="medical_bills" domainObjectName="Medical_bills" ></table>
 		<table tableName="price_of_medical_examination_service" domainObjectName="PriceOfMedicalExaminationService"></table>
-		<table tableName="dutyschedule" domainObjectName="DutySchedule"></table>
+		
 	</context>
 </generatorConfiguration>
