@@ -77,7 +77,7 @@ public class PaymentController {
       if(payment.getState().equals("approved")){
 
         medical_bills.setPrice(appointmentScheduleDTO.getPrice());
-        medical_bills.setDutyscheduleid(appointmentScheduleDTO.getIdappointmentSchedule());
+        medical_bills.setAppointscheduleid(appointmentScheduleDTO.getIdappointmentSchedule());
         medical_bills.setStatus("success");
         Medical_bills createMedicalBill = medicalbillService.insertMedical_bills(medical_bills);
         if(createMedicalBill!=null){

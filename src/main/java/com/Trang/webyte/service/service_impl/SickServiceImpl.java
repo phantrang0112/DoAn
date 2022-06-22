@@ -33,7 +33,6 @@ public class SickServiceImpl implements SickService {
         sick.setSickid(sickDTO.getSickId());
         sick.setSickname(sickDTO.getSickName());
         sick.setSicktypeid(sickDTO.getSickTypeId());
-        sick.setSymptomid(sickDTO.getSymptomId());
         return sickMapper.insertSelective(sick)>0 ? sickDTO : null;
     }
 
@@ -43,7 +42,6 @@ public class SickServiceImpl implements SickService {
         sick.setSickid(sickDTO.getSickId());
         sick.setSickname(sickDTO.getSickName());
         sick.setSicktypeid(sickDTO.getSickTypeId());
-        sick.setSymptomid(sickDTO.getSymptomId());
         return sickMapper.updateByPrimaryKeySelective(sick)>0 ? sickDTO : null;
     }
 

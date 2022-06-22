@@ -88,7 +88,7 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
         Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
         int success = 0;
         if (appointment_schedule != null) {
-            appointment_schedule.setStatus("success");
+            appointment_schedule.setStatus("Đã đăng ký");
             if (appointment_schedule.getTypeclinic().equals("Offline")) {
                 appointment_scheduleExample.createCriteria().andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
                 appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause() + "," + "number DESC");
