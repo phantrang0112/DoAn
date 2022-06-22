@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/prescriptions")
+@RequestMapping("/webyte/prescriptions")
 public class PrescriptionController {
     @Autowired
     PrescriptionService prescriptionService;
@@ -19,6 +19,7 @@ public class PrescriptionController {
     @GetMapping("/get-all-prescription")
     public List<Prescription> getAllPrescriptionList(){
         List<Prescription> prescriptionList= prescriptionService.getAllPrescriptions();
+        System.err.println(prescriptionList);
         return prescriptionList!=null ? prescriptionList : null;
     }
 
