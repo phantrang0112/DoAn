@@ -90,7 +90,7 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
         if (appointment_schedule != null) {
             appointment_schedule.setStatus("Đã đăng ký");
             if (appointment_schedule.getTypeclinic().equals("Offline")) {
-                appointment_scheduleExample.createCriteria().andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
+                appointment_scheduleExample.createCriteria().andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime()).andTypeclinicEqualTo(appointment_schedule.getTypeclinic());
                 appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause() + "," + "number DESC");
                 try {
                     List<Appointment_Schedule> listTime = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
@@ -105,6 +105,12 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
                 }
 
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
+                if(success>0){
+                    appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
+                    List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+                    return list.get(0);
+                }
+                return null;
             } else {
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
             }
@@ -113,7 +119,6 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
             if (success > 0) {
                 appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDoctoridEqualTo(appointment_schedule.getDoctorid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
                 List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
-
                 return list.get(0);
             } else {
                 return null;

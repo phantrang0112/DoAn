@@ -344,7 +344,7 @@
     from qlyt.appointment_schedule as a,
          (select qlyt.appointment_schedule.time, count(qlyt.appointment_schedule.time) as countTime
           from qlyt.appointment_schedule
-           where  qlyt.appointment_schedule.date = #{date,jdbcType=DATE}
+           where  qlyt.appointment_schedule.date = #{date,jdbcType=DATE} and qlyt.appointment_schedule.typeClinic='Offline'
           group by qlyt.appointment_schedule.time) as b
     where a.time=b.time and b.countTime>0 and a.date= #{date,jdbcType=DATE}
   </select>
