@@ -7,20 +7,20 @@ import com.Trang.webyte.mapper.DoctorMapper;
 import com.Trang.webyte.model.Account;
 import com.Trang.webyte.model.AccountKey;
 import com.Trang.webyte.model.Doctor;
-import com.Trang.webyte.model.Patient;
 import com.Trang.webyte.service.AccountService;
 import com.Trang.webyte.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.Doc;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -133,5 +133,31 @@ public class AccountController {
 
         }
         return null;
+    }
+
+    @GetMapping("/forgotPassword/{email}")
+    public ResponseEntity<Boolean> forgotPassword(@PathVariable String email) {
+        Account account = accountService.getAccountByEmail(email);
+        return new ResponseEntity<>(accountService.forgotPassword(account), HttpStatus.OK);
+    }
+
+    @PutMapping("/change-password/{id}")
+    public boolean changePassword(@PathVariable("id") int id, @RequestBody String password) {
+        boolean success = accountService.changePassword( id, password);
+        if (success) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @PostMapping("/check-password/{id}")
+    public boolean checkPassword(@PathVariable("id") int id, @RequestBody String password) {
+        System.out.println(id +" " +password);
+        if (Objects.nonNull(accountService.checkPassword(id, password))){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

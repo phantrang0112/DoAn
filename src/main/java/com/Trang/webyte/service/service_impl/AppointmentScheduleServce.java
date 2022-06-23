@@ -9,10 +9,8 @@ import com.Trang.webyte.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class AppointmentScheduleServce implements com.Trang.webyte.service.AppointmentScheduleServce {
@@ -40,14 +38,24 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
 
         List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
         AppointmentScheduleDTO itemDTO;
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal.setTime(today);
+        System.err.println(cal.getTime());
         for (Appointment_Schedule item : listAppoint) {
             Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
+            cal2.setTime(item.getDate());
+            if (Objects.equals(cal2.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.DAY_OF_MONTH))){
+//                System.err.println("if: "+ cal.get(Calendar.DAY_OF_MONTH));
+                item.setStatus("chờ khám");
+            }
             if(item.getTypeclinic().equals("Online")){
                 Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
                 itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
                 System.out.println(itemDTO.getDate());
             }
-          else {
+            else {
                 itemDTO = new AppointmentScheduleDTO(item, patient.getFullname());
                 System.out.println(itemDTO.getDate());
             }
