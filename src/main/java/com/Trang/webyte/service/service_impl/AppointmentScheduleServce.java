@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
+
 
 @Service
 public class AppointmentScheduleServce implements com.Trang.webyte.service.AppointmentScheduleServce {
@@ -64,13 +67,14 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
 //
 //                }
 //                    System.out.println();
+
             }
             if(item.getTypeclinic().equals("Online")){
                 Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
                 itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
                 System.out.println(itemDTO.getDate());
             }
-          else {
+            else {
                 itemDTO = new AppointmentScheduleDTO(item, patient.getFullname());
                 System.out.println(itemDTO.getDate());
             }
@@ -111,9 +115,9 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
         Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
         int success = 0;
         if (appointment_schedule != null) {
-            appointment_schedule.setStatus("success");
+            appointment_schedule.setStatus("Đã đăng ký");
             if (appointment_schedule.getTypeclinic().equals("Offline")) {
-                appointment_scheduleExample.createCriteria().andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
+                appointment_scheduleExample.createCriteria().andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime()).andTypeclinicEqualTo(appointment_schedule.getTypeclinic());
                 appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause() + "," + "number DESC");
                 try {
                     List<Appointment_Schedule> listTime = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
@@ -128,6 +132,12 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
                 }
 
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
+                if(success>0){
+                    appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
+                    List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+                    return list.get(0);
+                }
+                return null;
             } else {
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
             }
@@ -136,7 +146,6 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
             if (success > 0) {
                 appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDoctoridEqualTo(appointment_schedule.getDoctorid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
                 List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
-
                 return list.get(0);
             } else {
                 return null;

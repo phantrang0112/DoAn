@@ -2,20 +2,28 @@ package com.Trang.webyte.service.service_impl;
 
 import com.Trang.webyte.DTO.AccountDTO;
 import com.Trang.webyte.mapper.AccountMapper;
+import com.Trang.webyte.mapper.PatientMapper;
 import com.Trang.webyte.mapper.RoleMapper;
 import com.Trang.webyte.model.*;
 import com.Trang.webyte.service.AccountService;
+import com.Trang.webyte.service.SendMailService;
+import com.Trang.webyte.util.DataUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountMapper accountMapper;
@@ -27,9 +35,15 @@ public class AccountServiceImpl implements AccountService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    PatientMapper patientMapper;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     com.Trang.webyte.util.jwtUtil jwtUtil;
+
+    @Autowired
+    SendMailService sendMailService;
 
     @Override
     public List<Account> getAllListAccount() {
@@ -128,5 +142,66 @@ public class AccountServiceImpl implements AccountService {
             return paren;
         }
 
+    }
+
+    @Override
+    public boolean forgotPassword(Account account) {
+        account.setPassword(DataUtils.generateTempPwd(8));
+        PatientExample patientExample= new PatientExample();
+        patientExample.createCriteria().andAccountidEqualTo(account.getId());
+        List<Patient> patientList= patientMapper.selectByExample(patientExample);
+        sendMailService.forgotPassword(patientList.get(0), account.getPassword());
+        account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(12)));
+        int success = accountMapper.updateByPrimaryKey(account);
+        return success > 0;
+    }
+
+    @Override
+    public Account getAccountByEmail(String email) {
+        PatientExample patientExample= new PatientExample();
+        patientExample.createCriteria().andEmailEqualTo(email);
+        List<Patient> patientList= patientMapper.selectByExample(patientExample);
+        AccountExample accountExample= new AccountExample();
+        accountExample.createCriteria().andIdEqualTo(patientList.get(0).getAccountid());
+        List<Account> accountList = accountMapper.selectByExample(accountExample);
+        if (Objects.nonNull(accountList)) {
+            return accountList.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Account checkPassword(int id, String password) {
+        AccountExample accountExample= new AccountExample();
+        accountExample.createCriteria().andIdEqualTo(id);
+        List<Account> accountList = accountMapper.selectByExample(accountExample);
+        System.err.println("password 1= " + accountList.get(0).getPassword());
+        if (Objects.nonNull(accountList.get(0))){
+            System.out.println("password cũ=" + password);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String comparePassword = accountList.get(0).getPassword();
+            System.err.println("compare ="+comparePassword);
+            System.out.println("match =" +passwordEncoder.matches(password, comparePassword));
+            if (passwordEncoder.matches(password, comparePassword)) {
+                return accountList.get(0);
+            }
+        } else {
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean changePassword(int id, String password) {
+        Account account= checkPassword(id, password);
+        System.err.println("change ="+account);
+        if (Objects.nonNull(account)){
+            account.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
