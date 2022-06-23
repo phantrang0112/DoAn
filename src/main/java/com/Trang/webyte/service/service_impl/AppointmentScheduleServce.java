@@ -7,10 +7,22 @@ import com.Trang.webyte.mapper.PatientMapper;
 import com.Trang.webyte.mapper.PriceOfMedicalExaminationServiceMapper;
 import com.Trang.webyte.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.LinkOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.time.LocalDateTime;
 import java.util.*;
+
 
 @Service
 public class AppointmentScheduleServce implements com.Trang.webyte.service.AppointmentScheduleServce {
@@ -31,24 +43,31 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
     }
 
     @Override
-    public List<AppointmentScheduleDTO> getAllAppointmentSchedule() {
+    public List<AppointmentScheduleDTO> getAllAppointmentSchedule() throws ParseException {
         Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
+        LocalDate dateNow= LocalDate.now();
+        java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateNow.toString());
+
         appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause() + "," + "date DESC");
         List<Appointment_Schedule> listAppoint = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
 
         List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
         AppointmentScheduleDTO itemDTO;
-        Date today = new Date();
-        Calendar cal = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        cal.setTime(today);
-        System.err.println(cal.getTime());
         for (Appointment_Schedule item : listAppoint) {
             Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
-            cal2.setTime(item.getDate());
-            if (Objects.equals(cal2.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.DAY_OF_MONTH))){
-//                System.err.println("if: "+ cal.get(Calendar.DAY_OF_MONTH));
-                item.setStatus("chờ khám");
+            if(item.getStatus().equals("Đã đăng ký")&&item.getDate().compareTo(date)<=0){
+                item.setStatus("Chờ khám");
+                updateStatus(item.getIdappointmentSchedule(),"Chờ khám");
+//                LocalTime time= LocalTime.now();
+//
+////                LocalTime timeLichkham=LocalTime.of()
+//                LocalTime timeAppoint= LocalTime.parse(item.getTime());
+//                timeAppoint.plusMinutes(10);
+//                if(time.compareTo(timeAppoint)==0){
+//
+//                }
+//                    System.out.println();
+
             }
             if(item.getTypeclinic().equals("Online")){
                 Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
@@ -191,5 +210,17 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
             return null;
         }
 
+    }
+
+    @Override
+    public Appointment_Schedule updateStatus(int id, String status) {
+        Appointment_Schedule appointment_schedule=appointment_scheduleMapper.selectByPrimaryKey(id);
+        appointment_schedule.setStatus(status);
+        int sussecc = appointment_scheduleMapper.updateByPrimaryKeySelective(appointment_schedule);
+        if(sussecc>0){
+            return  appointment_schedule;
+        }else {
+            return  null;
+        }
     }
 }
