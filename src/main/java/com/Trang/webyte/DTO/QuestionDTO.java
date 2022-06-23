@@ -1,9 +1,29 @@
 package com.Trang.webyte.DTO;
 
+import java.util.Date;
+
 public class QuestionDTO {
     public int questionId;
     public String questionContent;
     public int topicId;
+    public  int accountId;
+    public Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
 
     public QuestionDTO() {
     }

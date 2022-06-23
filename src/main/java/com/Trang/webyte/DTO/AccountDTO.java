@@ -57,8 +57,18 @@ public class AccountDTO {
 
     private String password;
     private Integer idrole;
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
     private Integer id;
     private String username;
+    private  Integer accountId;
 
     @Override
     public String toString() {
