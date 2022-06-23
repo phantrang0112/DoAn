@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/questions")
@@ -22,8 +23,8 @@ public class QuestionController {
         return questionList!=null ? questionList : null;
     }
     @GetMapping("/get-all-question-answers")
-    public List<QuestionDTOs> getAllQuestionListAnswer(){
-        List<QuestionDTOs> questionList= questionService.getAllQuestion();
+    public List<Map<String,Object>> getAllQuestionListAnswer(){
+        List<Map<String,Object>> questionList= questionService.getAllQuestionAnswer();
         return questionList!=null ? questionList : null;
     }
 
