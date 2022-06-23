@@ -1,6 +1,7 @@
 package com.Trang.webyte.controller;
 
 import com.Trang.webyte.DTO.QuestionDTO;
+import com.Trang.webyte.DTO.QuestionDTOs;
 import com.Trang.webyte.model.Question;
 import com.Trang.webyte.model.QuestionExample;
 import com.Trang.webyte.service.QuestionService;
@@ -16,8 +17,13 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("/get-all-question")
-    public List<Question> getAllQuestionList(){
-        List<Question> questionList= questionService.getAllQuestion();
+    public List<QuestionDTOs> getAllQuestionList(){
+        List<QuestionDTOs> questionList= questionService.getAllQuestion();
+        return questionList!=null ? questionList : null;
+    }
+    @GetMapping("/get-all-question-answers")
+    public List<QuestionDTOs> getAllQuestionListAnswer(){
+        List<QuestionDTOs> questionList= questionService.getAllQuestion();
         return questionList!=null ? questionList : null;
     }
 

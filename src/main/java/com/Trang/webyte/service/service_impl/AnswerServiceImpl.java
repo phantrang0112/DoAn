@@ -7,6 +7,7 @@ import com.Trang.webyte.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -33,6 +34,8 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public Answer insertAnswer(Answer answer) {
+        Date dateNow= new Date();
+        answer.setDate(dateNow);
         int success= answerMapper.insertSelective(answer);
         if(success>0){
             return  answer;
