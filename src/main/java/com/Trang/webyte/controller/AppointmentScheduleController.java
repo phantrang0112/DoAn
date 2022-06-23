@@ -24,7 +24,7 @@ public class AppointmentScheduleController {
         return listAppointment;
     }
     @GetMapping("/all")
-    public List<AppointmentScheduleDTO> getAllAppoint(){
+    public List<AppointmentScheduleDTO> getAllAppoint() throws ParseException {
         List<AppointmentScheduleDTO> listAppointment=  appointmentScheduleServce.getAllAppointmentSchedule();
         return listAppointment;
     }
@@ -86,6 +86,10 @@ public class AppointmentScheduleController {
         Date date = formatter2.parse(date1);
         List<Map<String,Object>> listCountTime= appointmentScheduleServce.getCountTimeFull(date);
         return  listCountTime;
+    }
+    @PutMapping("/update-status/{id}/{trangthai}")
+    public  Appointment_Schedule updateStatus(@PathVariable("id")int id,@PathVariable("trangthai")String status){
+return  null;
     }
 }
 
