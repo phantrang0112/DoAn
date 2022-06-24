@@ -81,7 +81,7 @@ public class QuestionServiceImpl implements QuestionService {
 
             }else {
                 PatientExample patientExample= new PatientExample();
-                patientExample.createCriteria().andAccountidEqualTo(id);
+                patientExample.createCriteria().andAccountidEqualTo(item.getAccountid());
                 List<Patient> patientList= patientMapper.selectByExample(patientExample);
                 AnswerDTO answerDTO= new AnswerDTO(item,patientList.get(0).getFullname(),patientList.get(0).getImg());
                 answerDTOList.add(answerDTO);
