@@ -89,7 +89,8 @@ public class AppointmentScheduleController {
     }
     @PutMapping("/update-status/{id}/{trangthai}")
     public  Appointment_Schedule updateStatus(@PathVariable("id")int id,@PathVariable("trangthai")String status){
-return  null;
+        System.err.println(id + " - " + status);
+        return  appointmentScheduleServce.updateStatus(id, status);
     }
 }
 

@@ -55,14 +55,8 @@ public class DoctorController {
         return  price;
     }
     @GetMapping("/{id}")
-    public Doctor getDoctor(@PathVariable("id")int id) {
-        Doctor doctor;
-        doctor = doctorService.getDoctor(id);
-        if (doctor != null) {
-            return doctor;
-        } else {
-            return null;
-        }
+    public Doctor getDoctorById(@PathVariable("id")int id) {
+        return doctorService.getDoctor(id);
     }
 
     @PostMapping()
