@@ -7,7 +7,7 @@ import com.Trang.webyte.service.HealthrecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HealthrecordsServiceImpl implements HealthrecordsService {
@@ -46,5 +46,43 @@ public class HealthrecordsServiceImpl implements HealthrecordsService {
     public int deleteHealthrecords(int id) {
         int success= healthrecordsMapper.deleteByPrimaryKey(id);
         return success>0?1:0;
+    }
+
+    @Override
+    public List<Map<String, Object>> getListMedicine(int id) {
+        try{
+            List<Map<String,Object>> listMedicine= healthrecordsMapper.getListMedicine(id);
+            if(Objects.nonNull(listMedicine)){
+                return  listMedicine;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getListSick(int id) {
+        try {
+            List<Map<String,Object>> listMedicine= healthrecordsMapper.getListSick(id);
+            Map<String,Object> map= new HashMap<>();
+            List<Map<String,Object>> listSymptom= new ArrayList<>();
+            for(Map<String,Object> item: listMedicine){
+                List<Map<String,Object>> sysptom= new ArrayList<>();
+                sysptom= healthrecordsMapper.getListSymptom((Integer) item.get("sickid"));
+                for (Map<String,Object> item1: sysptom){
+                    listSymptom.add(item1);
+                }
+            }
+            map.put("listSick",listMedicine);
+            map.put("listSympom",listSymptom);
+            if(Objects.nonNull(map)){
+                return  map;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+
+        return null;
     }
 }

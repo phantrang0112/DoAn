@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/webyte/healthrecord")
@@ -55,5 +56,21 @@ public class HealthrecordsController {
         else {
             return  0;
         }
+    }
+    @GetMapping("/getListMedicine{id}")
+    public  List<Map<String,Object>> getListMedicine(@PathVariable("id") int id){
+        if( id>0){
+            List<Map<String,Object>> listMedicine= healthrecordsService.getListMedicine(id);
+            return listMedicine;
+        }
+        return null;
+    }
+    @GetMapping("/getListSick{id}")
+    public  Map<String,Object> getListSick(@PathVariable("id") int id){
+        if( id>0){
+            Map<String,Object> listSick= healthrecordsService.getListSick(id);
+            return listSick;
+        }
+        return null;
     }
 }

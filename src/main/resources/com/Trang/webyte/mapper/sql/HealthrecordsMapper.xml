@@ -253,4 +253,21 @@
       appointscheduleid = #{appointscheduleid,jdbcType=INTEGER}
     where healthrecordsid = #{healthrecordsid,jdbcType=INTEGER}
   </update>
+  <select id="getListMedicine"  parameterType="integer" resultType="Map">
+    SELECT d.*, c.*,e.*
+    FROM qlyt.healthrecords as a, qlyt.appointment_schedule as b, qlyt.prescription  as c, qlyt.prescription_detail  as d, qlyt.medicine as e
+    Where a.appointscheduleid = b.idappointment_schedule and c.prescriptionid= a.prescriptionid and c.prescriptionid= d.prescriptionid and e.medicineid = d.medicineId
+    and b.idappointment_schedule=#{id,jdbcType=INTEGER}
+  </select>
+  <select id="getListSick"  parameterType="integer" resultType="Map">
+    SELECT c.*,d.*
+    FROM qlyt.healthrecords as a, qlyt.appointment_schedule as b, qlyt.sick_detai as c,qlyt.sick as d
+    Where a.appointscheduleid = b.idappointment_schedule and a.healthrecordsid= c.healthrecordid and c.sickid= d.sickid
+      and b.idappointment_schedule=#{id,jdbcType=INTEGER}
+  </select>
+  <select id="getListSymptom" parameterType="integer" resultType="Map">
+    select c.*
+    from qlyt.sick as a, qlyt.typesick_detail as b, qlyt.symptom as c
+    where a.sickid= b.sickid and b.symptomid=c.idsymptom and a.sickid=#{id,jdbcType=INTEGER}
+  </select>
 </mapper>
