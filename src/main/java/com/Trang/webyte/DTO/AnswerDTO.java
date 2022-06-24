@@ -16,6 +16,7 @@ public class AnswerDTO {
     private  String img;
 
     private Date date;
+    private String account;
 
     public AnswerDTO() {
     }
@@ -28,13 +29,22 @@ public class AnswerDTO {
         this.img = img;
         this.date = date;
     }
-    public AnswerDTO(Answer answer,String name, String img) {
+    public AnswerDTO(Answer answer,String name, String img,String account) {
         this.answerid = answer.getAnswerid();
         this.answercontent = answer.getAnswercontent();
         this.questionid = answer.getQuestionid();
         this.accountName = name;
         this.img = img;
         this.date = answer.getDate();
+        this.account=account;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public Integer getAnswerid() {

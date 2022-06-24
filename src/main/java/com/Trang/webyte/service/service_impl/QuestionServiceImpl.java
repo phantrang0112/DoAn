@@ -76,14 +76,14 @@ public class QuestionServiceImpl implements QuestionService {
             doctorExample.createCriteria().andAccountidEqualTo(item.getAccountid());
             List<Doctor> listDoctor= doctorMapper.selectByExample(doctorExample);
             if(listDoctor.size()>0){
-                AnswerDTO answerDTO= new AnswerDTO(item,listDoctor.get(0).getFullname(),listDoctor.get(0).getImg());
+                AnswerDTO answerDTO= new AnswerDTO(item,listDoctor.get(0).getFullname(),listDoctor.get(0).getImg(),"Bác sĩ");
                 answerDTOList.add(answerDTO);
 
             }else {
                 PatientExample patientExample= new PatientExample();
                 patientExample.createCriteria().andAccountidEqualTo(item.getAccountid());
                 List<Patient> patientList= patientMapper.selectByExample(patientExample);
-                AnswerDTO answerDTO= new AnswerDTO(item,patientList.get(0).getFullname(),patientList.get(0).getImg());
+                AnswerDTO answerDTO= new AnswerDTO(item,patientList.get(0).getFullname(),patientList.get(0).getImg(),"Người dùng");
                 answerDTOList.add(answerDTO);
             }
 
