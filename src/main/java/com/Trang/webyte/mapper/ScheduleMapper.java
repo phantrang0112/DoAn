@@ -3,8 +3,11 @@ package com.Trang.webyte.mapper;
 import com.Trang.webyte.model.Schedule;
 import com.Trang.webyte.model.ScheduleExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface ScheduleMapper {
 
 	/**

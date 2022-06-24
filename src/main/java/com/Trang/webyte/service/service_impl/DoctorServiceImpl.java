@@ -36,14 +36,10 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor getDoctor(int key) {
-        Doctor doctor= doctorMapper.selectByPrimaryKey(key);
-        if(doctor!=null){
-            return  doctor;
-        }
-        else {
-            return null;
-        }
-
+        DoctorExample doctorExample= new DoctorExample();
+        doctorExample.createCriteria().andAccountidEqualTo(key);
+        List<Doctor> doctorList= doctorMapper.selectByExample(doctorExample);
+        return doctorList.get(0);
     }
 
     @Override
