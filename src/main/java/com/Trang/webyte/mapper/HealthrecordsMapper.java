@@ -3,6 +3,7 @@ package com.Trang.webyte.mapper;
 import com.Trang.webyte.model.Healthrecords;
 import com.Trang.webyte.model.HealthrecordsExample;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -74,4 +75,7 @@ public interface HealthrecordsMapper {
 	 * @mbg.generated  Wed Jun 22 09:57:43 ICT 2022
 	 */
 	int updateByPrimaryKey(Healthrecords row);
+	List<Map<String,Object>> getListMedicine(int id);
+	List<Map<String,Object>> getListSick(int id);
+	List<Map<String,Object>> getListSymptom(int id);
 }
