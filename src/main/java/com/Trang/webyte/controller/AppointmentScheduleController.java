@@ -92,5 +92,10 @@ public class AppointmentScheduleController {
         System.err.println(id + " - " + status);
         return  appointmentScheduleServce.updateStatus(id, status);
     }
+    @GetMapping("/getAppointDate{id}")
+   public Map<String,Object> getAppointDate(@PathVariable("id")int id){
+        Map<String,Object> map = appointmentScheduleServce.getAppointDate(id);
+        return  map;
+    }
 }
 

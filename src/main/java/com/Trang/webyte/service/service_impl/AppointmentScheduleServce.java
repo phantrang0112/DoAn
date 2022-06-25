@@ -242,4 +242,49 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
             return null;
         }
     }
+
+    @Override
+    public Map<String, Object> getAppointDate(int id) {
+        Doctor doctor = doctorMapper.selectByPrimaryKey(id);
+        Map<String, Object> map = new HashMap<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        int ngay = cal.get(cal.DAY_OF_WEEK);
+        // lay ngày đầu tuần nè
+        cal.add(Calendar.DAY_OF_MONTH, -ngay + 2);
+        java.util.Date ngaydautuan = cal.getTime();
+
+        Object[] listngay = new Object[7];
+        Object[] listngayhuy = new Object[7];
+        String khoangngay = "Từ ngày " + format.format(cal.getTime());
+        for (int i = 0; i < 7; i++) {
+            Map<String, Object> item = new HashMap<>();
+            Map<String, Object> item1 = new HashMap<>();
+            java.util.Date ngayHienTai = cal.getTime();
+            Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
+            appointment_scheduleExample.createCriteria().andDoctoridEqualTo(doctor.getDoctorid()).andDateEqualTo(ngayHienTai).andStatusEqualTo("Đã khám");
+            Appointment_ScheduleExample appointment_scheduleExample1 = new Appointment_ScheduleExample();
+            appointment_scheduleExample1.createCriteria().andDoctoridEqualTo(doctor.getDoctorid()).andDateEqualTo(ngayHienTai).andStatusEqualTo("Đã hủy");
+
+
+            SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+            String formatted = format1.format(ngayHienTai);
+            item.put("date", formatted);
+            item.put("count", appointment_scheduleMapper.countByExample(appointment_scheduleExample));
+            item1.put("date", formatted);
+            System.out.println(appointment_scheduleMapper.countByExample(appointment_scheduleExample1));
+            item1.put("count", appointment_scheduleMapper.countByExample(appointment_scheduleExample1));
+            listngay[i]=item;
+            listngayhuy[i]=item1;
+
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        khoangngay += "  đến ngày  " + format.format(cal.getTime());
+
+        map.put("listDateSuccess", listngay);
+        map.put("listDateError", listngayhuy);
+        return map;
+    }
 }
