@@ -1,18 +1,25 @@
 package com.Trang.webyte.service.service_impl;
 
 import com.Trang.webyte.mapper.DeptMapper;
+import com.Trang.webyte.mapper.DoctorMapper;
 import com.Trang.webyte.model.Dept;
 import com.Trang.webyte.model.DeptExample;
+import com.Trang.webyte.model.Doctor;
+import com.Trang.webyte.model.DoctorExample;
 import com.Trang.webyte.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DeptServiceImpl implements DeptService {
     @Autowired
     DeptMapper deptMapper;
+
+    @Autowired
+    DoctorMapper doctorMapper;
     @Override
     public List<Dept> getAllListDept() {
         DeptExample deptExample= new DeptExample();
@@ -61,12 +68,15 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public int deleteDept(int id) {
-        int success= deptMapper.deleteByPrimaryKey(id);
-        if(success>0){
-            return  1;
+        DoctorExample doctorExample= new DoctorExample();
+        doctorExample.createCriteria().andDeptidEqualTo(id);
+        List<Doctor> doctorList = doctorMapper.selectByExample(doctorExample);
+        if (Objects.isNull(doctorList.get(0))){
+            int success= deptMapper.deleteByPrimaryKey(id);
+            if(success>0){
+                return  1;
+            }
         }
-        else{
-            return 0;
-        }
+        return 0;
     }
 }
