@@ -6,6 +6,7 @@ import com.Trang.webyte.mapper.DoctorMapper;
 import com.Trang.webyte.mapper.PatientMapper;
 import com.Trang.webyte.mapper.PriceOfMedicalExaminationServiceMapper;
 import com.Trang.webyte.model.*;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
@@ -83,20 +84,39 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
         return listAppointSchedule;
     }
 
+    @SneakyThrows
     @Override
-    public List<AppointmentScheduleDTO> getAllAppointmentScheduleByDoctor(String username) {
+    public List<AppointmentScheduleDTO> getAllAppointmentScheduleByDoctor(int id) {
+        LocalDate dateNow = LocalDate.now();
+        java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateNow.toString());
         Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
-        List<Appointment_Schedule> listAppoint = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+        appointment_scheduleExample.createCriteria().andDoctoridEqualTo(id);
+//        appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause()+ ","+"number DESC");
+        List<Appointment_Schedule> appointment_scheduleList = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
         List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
-        for (Appointment_Schedule item : listAppoint) {
+        for (Appointment_Schedule item : appointment_scheduleList) {
+            if (item.getStatus().equals("Đã đăng ký") && item.getDate().compareTo(date) <= 0) {
+                item.setStatus("Chờ khám");
+                updateStatus(item.getIdappointmentSchedule(), "Chờ khám");
+            }
             Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
             Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
-            System.out.println(item.getDate());
-            AppointmentScheduleDTO itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
-            System.out.println(itemDTO.getDate());
-            listAppointSchedule.add(itemDTO);
+            if (item.getTypeclinic().equals("Online")) {
+                AppointmentScheduleDTO itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
+                listAppointSchedule.add(itemDTO);
+            }
         }
         return listAppointSchedule;
+//        Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
+//        List<Appointment_Schedule> listAppoint = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
+//        List<AppointmentScheduleDTO> listAppointSchedule = new ArrayList<AppointmentScheduleDTO>();
+//        for (Appointment_Schedule item : listAppoint) {
+//            Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
+//            Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
+//            AppointmentScheduleDTO itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
+//            listAppointSchedule.add(itemDTO);
+//        }
+//        return listAppointSchedule;
     }
 
     @Override

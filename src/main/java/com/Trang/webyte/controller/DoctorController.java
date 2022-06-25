@@ -85,12 +85,7 @@ public class DoctorController {
 
     @DeleteMapping("{id}")
     public int deleteDoctor(@PathVariable("id") int id) {
-        if (id > 0) {
-            int success = doctorService.deleteDoctor(id);
-            return success;
-        } else {
-            return 0;
-        }
+        return doctorService.deleteDoctor(id);
     }
 
     @GetMapping("/all")
