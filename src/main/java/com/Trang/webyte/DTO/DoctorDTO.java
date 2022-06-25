@@ -20,9 +20,24 @@ public class DoctorDTO {
 
   private Dept dept;
 
-  private Date birthday;
+  private String birthday;
 
   private MultipartFile img;
+
+  public DoctorDTO(Integer doctorid, String fullname, String address, String phone, String email, Integer accountid, Dept dept, String birthday, MultipartFile img) {
+    this.doctorid = doctorid;
+    this.fullname = fullname;
+    this.address = address;
+    this.phone = phone;
+    this.email = email;
+    this.accountid = accountid;
+    this.dept = dept;
+    this.birthday = birthday;
+    this.img = img;
+  }
+
+  public DoctorDTO() {
+  }
 
   public Integer getDoctorid() {
     return doctorid;
@@ -80,11 +95,11 @@ public class DoctorDTO {
     this.dept = dept;
   }
 
-  public Date getBirthday() {
+  public String getBirthday() {
     return birthday;
   }
 
-  public void setBirthday(Date birthday) {
+  public void setBirthday(String birthday) {
     this.birthday = birthday;
   }
 

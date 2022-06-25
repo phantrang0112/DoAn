@@ -176,12 +176,10 @@ public class AccountServiceImpl implements AccountService {
         AccountExample accountExample= new AccountExample();
         accountExample.createCriteria().andIdEqualTo(id);
         List<Account> accountList = accountMapper.selectByExample(accountExample);
-        System.err.println("password 1= " + accountList.get(0).getPassword());
         if (Objects.nonNull(accountList.get(0))){
-            System.out.println("password cũ=" + password);
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String comparePassword = accountList.get(0).getPassword();
-            System.err.println("compare ="+comparePassword);
+            System.err.println("password cũ= " + accountList.get(0).getPassword());
             System.out.println("match =" +passwordEncoder.matches(password, comparePassword));
             if (passwordEncoder.matches(password, comparePassword)) {
                 return accountList.get(0);
