@@ -12,7 +12,7 @@ import java.util.Map;
 public interface AppointmentScheduleServce {
     public List<Appointment_Schedule> getAllListAppointmentSchedule();
     public List<AppointmentScheduleDTO> getAllAppointmentSchedule() throws ParseException;
-    public List<AppointmentScheduleDTO> getAllAppointmentScheduleByDoctor(String username);
+    public List<AppointmentScheduleDTO> getAllAppointmentScheduleByDoctor(int id);
     public Appointment_Schedule getAppointmentSchedule(int key);
     public Appointment_Schedule insertAppointmentSchedule(Appointment_Schedule appointment_schedule);
     public Appointment_Schedule updateAppointmentSchedule(Appointment_Schedule appointment_schedule);

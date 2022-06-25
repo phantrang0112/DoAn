@@ -4,6 +4,7 @@ import com.Trang.webyte.DTO.DoctorDTO;
 import com.Trang.webyte.mapper.Appointment_ScheduleMapper;
 import com.Trang.webyte.mapper.DoctorMapper;
 import com.Trang.webyte.mapper.PriceOfMedicalExaminationServiceMapper;
+import com.Trang.webyte.mapper.ScheduleMapper;
 import com.Trang.webyte.model.*;
 import com.Trang.webyte.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,15 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
     DoctorMapper doctorMapper;
+
+    @Autowired
+    ScheduleMapper scheduleMapper;
     @Autowired
     Appointment_ScheduleMapper appointment_scheduleMapper;
     @Autowired
@@ -100,14 +101,19 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public int deleteDoctor(int id) {
-        int success=doctorMapper.deleteByPrimaryKey(id);
-        if(success>0){
-            return 1;
+        ScheduleExample scheduleExample= new ScheduleExample();
+        scheduleExample.createCriteria().andDoctoridEqualTo(id);
+        PriceOfMedicalExaminationServiceExample price = new PriceOfMedicalExaminationServiceExample();
+        price.createCriteria().andDoctortidEqualTo(id);
+        Appointment_ScheduleExample appointment_scheduleExample= new Appointment_ScheduleExample();
+        appointment_scheduleExample.createCriteria().andDoctoridEqualTo(id);
+        if (Objects.isNull(scheduleMapper.selectByExample(scheduleExample)) && Objects.isNull(priceOfMedicalExaminationServiceMapper.selectByExample(price)) && Objects.isNull(appointment_scheduleMapper.selectByExample(appointment_scheduleExample))){
+            int success=doctorMapper.deleteByPrimaryKey(id);
+            if(success>0){
+                return 1;
+            }
         }
-        else{
-            return 0;
-        }
-
+        return 0;
     }
 
     @Override
