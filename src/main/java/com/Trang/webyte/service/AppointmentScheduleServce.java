@@ -21,4 +21,5 @@ public interface AppointmentScheduleServce {
     public List<Map<String,Object>> getCountTimeFull(Date date);
     public AppointmentScheduleDTO getAppointmentScheduleById(int id);
     public Appointment_Schedule updateStatus(int id, String status);
+    public  Map<String,Object> getAppointDate(int id);
 }

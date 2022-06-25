@@ -45,7 +45,7 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
     @Override
     public List<AppointmentScheduleDTO> getAllAppointmentSchedule() throws ParseException {
         Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
-        LocalDate dateNow= LocalDate.now();
+        LocalDate dateNow = LocalDate.now();
         java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateNow.toString());
 
         appointment_scheduleExample.setOrderByClause(appointment_scheduleExample.getOrderByClause() + "," + "date DESC");
@@ -55,9 +55,9 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
         AppointmentScheduleDTO itemDTO;
         for (Appointment_Schedule item : listAppoint) {
             Patient patient = patientMapper.selectByPrimaryKey(item.getPatientid());
-            if(item.getStatus().equals("Đã đăng ký")&&item.getDate().compareTo(date)<=0){
+            if (item.getStatus().equals("Đã đăng ký") && item.getDate().compareTo(date) <= 0) {
                 item.setStatus("Chờ khám");
-                updateStatus(item.getIdappointmentSchedule(),"Chờ khám");
+                updateStatus(item.getIdappointmentSchedule(), "Chờ khám");
 //                LocalTime time= LocalTime.now();
 //
 ////                LocalTime timeLichkham=LocalTime.of()
@@ -69,12 +69,11 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
 //                    System.out.println();
 
             }
-            if(item.getTypeclinic().equals("Online")){
+            if (item.getTypeclinic().equals("Online")) {
                 Doctor doctor = doctorMapper.selectByPrimaryKey(item.getDoctorid());
                 itemDTO = new AppointmentScheduleDTO(item, doctor.getFullname(), patient.getFullname());
                 System.out.println(itemDTO.getDate());
-            }
-            else {
+            } else {
                 itemDTO = new AppointmentScheduleDTO(item, patient.getFullname());
                 System.out.println(itemDTO.getDate());
             }
@@ -128,11 +127,11 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
                         appointment_schedule.setNumber(1);
                     }
                 } catch (Exception e) {
-                   e.printStackTrace();
+                    e.printStackTrace();
                 }
 
                 success = appointment_scheduleMapper.insertSelective(appointment_schedule);
-                if(success>0){
+                if (success > 0) {
                     appointment_scheduleExample.createCriteria().andPatientidEqualTo(appointment_schedule.getPatientid()).andDateEqualTo(appointment_schedule.getDate()).andTimeEqualTo(appointment_schedule.getTime());
                     List<Appointment_Schedule> list = appointment_scheduleMapper.selectByExample(appointment_scheduleExample);
                     return list.get(0);
@@ -214,13 +213,58 @@ public class AppointmentScheduleServce implements com.Trang.webyte.service.Appoi
 
     @Override
     public Appointment_Schedule updateStatus(int id, String status) {
-        Appointment_Schedule appointment_schedule=appointment_scheduleMapper.selectByPrimaryKey(id);
+        Appointment_Schedule appointment_schedule = appointment_scheduleMapper.selectByPrimaryKey(id);
         appointment_schedule.setStatus(status);
         int sussecc = appointment_scheduleMapper.updateByPrimaryKeySelective(appointment_schedule);
-        if(sussecc>0){
-            return  appointment_schedule;
-        }else {
-            return  null;
+        if (sussecc > 0) {
+            return appointment_schedule;
+        } else {
+            return null;
         }
+    }
+
+    @Override
+    public Map<String, Object> getAppointDate(int id) {
+        Doctor doctor = doctorMapper.selectByPrimaryKey(id);
+        Map<String, Object> map = new HashMap<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        int ngay = cal.get(cal.DAY_OF_WEEK);
+        // lay ngày đầu tuần nè
+        cal.add(Calendar.DAY_OF_MONTH, -ngay + 2);
+        java.util.Date ngaydautuan = cal.getTime();
+
+        Object[] listngay = new Object[7];
+        Object[] listngayhuy = new Object[7];
+        String khoangngay = "Từ ngày " + format.format(cal.getTime());
+        for (int i = 0; i < 7; i++) {
+            Map<String, Object> item = new HashMap<>();
+            Map<String, Object> item1 = new HashMap<>();
+            java.util.Date ngayHienTai = cal.getTime();
+            Appointment_ScheduleExample appointment_scheduleExample = new Appointment_ScheduleExample();
+            appointment_scheduleExample.createCriteria().andDoctoridEqualTo(doctor.getDoctorid()).andDateEqualTo(ngayHienTai).andStatusEqualTo("Đã khám");
+            Appointment_ScheduleExample appointment_scheduleExample1 = new Appointment_ScheduleExample();
+            appointment_scheduleExample1.createCriteria().andDoctoridEqualTo(doctor.getDoctorid()).andDateEqualTo(ngayHienTai).andStatusEqualTo("Đã hủy");
+
+
+            SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+            String formatted = format1.format(ngayHienTai);
+            item.put("date", formatted);
+            item.put("count", appointment_scheduleMapper.countByExample(appointment_scheduleExample));
+            item1.put("date", formatted);
+            System.out.println(appointment_scheduleMapper.countByExample(appointment_scheduleExample1));
+            item1.put("count", appointment_scheduleMapper.countByExample(appointment_scheduleExample1));
+            listngay[i]=item;
+            listngayhuy[i]=item1;
+
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        khoangngay += "  đến ngày  " + format.format(cal.getTime());
+
+        map.put("listDateSuccess", listngay);
+        map.put("listDateError", listngayhuy);
+        return map;
     }
 }
