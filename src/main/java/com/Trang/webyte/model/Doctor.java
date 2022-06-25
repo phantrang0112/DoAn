@@ -221,7 +221,7 @@ public class Doctor {
 		this.phone = doctorDTO.getPhone();
 		this.email = doctorDTO.getEmail();
 		this.accountid = doctorDTO.getAccountid();
-		this.birthday = doctorDTO.getBirthday();
+//		this.birthday = doctorDTO.getBirthday();
 		this.img = img;
 	}
 

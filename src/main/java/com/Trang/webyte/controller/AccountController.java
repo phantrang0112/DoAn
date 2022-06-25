@@ -143,6 +143,7 @@ public class AccountController {
 
     @PutMapping("/change-password/{id}")
     public boolean changePassword(@PathVariable("id") int id, @RequestBody String password) {
+        System.err.println("id = "+id +" - password mới= " +password);
         boolean success = accountService.changePassword( id, password);
         if (success) {
             return true;
@@ -153,7 +154,7 @@ public class AccountController {
 
     @PostMapping("/check-password/{id}")
     public boolean checkPassword(@PathVariable("id") int id, @RequestBody String password) {
-        System.out.println(id +" " +password);
+        System.out.println("id = "+id +" - password cũ= " + password);
         if (Objects.nonNull(accountService.checkPassword(id, password))){
             return true;
         } else {

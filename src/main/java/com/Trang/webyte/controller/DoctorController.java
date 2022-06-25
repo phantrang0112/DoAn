@@ -1,5 +1,7 @@
 package com.Trang.webyte.controller;
 
+import com.Trang.webyte.DTO.DoctorDTO;
+import com.Trang.webyte.DTO.PatientDTO;
 import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.model.PriceOfMedicalExaminationService;
 import com.Trang.webyte.service.DoctorService;
@@ -69,11 +71,13 @@ public class DoctorController {
         }
     }
 
-    @PutMapping("{id}")
-    public Doctor updateDoctor(@PathVariable("id") int id, @RequestBody Doctor doctor) {
+    @PutMapping("/update")
+    public DoctorDTO updateDoctor(@RequestBody DoctorDTO doctorDTO) {
+        DoctorDTO doctor;
+        System.err.println("PatientUpdate = "+doctorDTO.toString());
+        doctor = doctorService.updateDoctor(doctorDTO);
         if (doctor != null) {
-            Doctor updateDoctor = doctorService.updateDoctor(doctor);
-            return updateDoctor;
+            return doctor;
         } else {
             return null;
         }
