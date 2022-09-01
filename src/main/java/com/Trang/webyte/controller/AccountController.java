@@ -9,6 +9,7 @@ import com.Trang.webyte.model.AccountKey;
 import com.Trang.webyte.model.Doctor;
 import com.Trang.webyte.service.AccountService;
 import com.Trang.webyte.service.PatientService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.slf4j.Logger;
 
 @CrossOrigin
 @RestController
@@ -31,6 +33,9 @@ public class AccountController {
     private String fileUpload;
     @Autowired
     PatientService patientService;
+
+    static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+    static final String BLID = "BL-ACC";
 
     @GetMapping("/get-all-account")
     public List<Account> getAllAccount() {
@@ -103,6 +108,8 @@ public class AccountController {
     public Map<String, Object> login(@RequestBody AccountDTO accountDTO) {
         Map<String, Object> account = accountService.login(accountDTO);
         if (account != null) {
+            logger.info(accountDTO.toString(), "login");
+            logger.debug(accountDTO.toString());
             return account;
         }
         return null;
@@ -114,7 +121,7 @@ public class AccountController {
     @PutMapping("/upload/{id}")
     public Doctor UploadImg(@RequestParam("img") MultipartFile img,@RequestParam("data") DoctorDTO doctorDTO, @PathVariable("id") int id) throws IOException {
         System.out.println(doctorDTO.getFullname()+doctorDTO.getPhone());
-        String fileUpload = "Y:\\";
+        String fileUpload = "L:\\";
         doctorDTO.setImg(img);
         if (doctorDTO != null) {
             Doctor doctor = doctorMapper.selectByPrimaryKey(doctorDTO.getDoctorid());

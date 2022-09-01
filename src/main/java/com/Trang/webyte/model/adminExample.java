@@ -163,6 +163,10 @@ public class adminExample {
 			}
 			criteria.add(new Criterion(condition, value1, value2));
 		}
+		public Criteria andAccountidEqualTo(Integer value) {
+			addCriterion("accountid =", value, "accountid");
+			return (Criteria) this;
+		}
 
 		public Criteria andIdIsNull() {
 			addCriterion("id is null");
